@@ -4,10 +4,12 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 
 // Adding @Entity says that this class will be table saving data in the database
 @Entity
-public class User {
+public class User implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -63,7 +65,5 @@ public class User {
     public String getEmail() {
         return email;
     }
-
-
 
 }

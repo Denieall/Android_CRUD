@@ -1,6 +1,8 @@
 package com.denieall.crud;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.denieall.crud.Model.DBIntentService;
 import com.denieall.crud.Model.User;
 
 public class CreateUser extends AppCompatActivity {
@@ -32,14 +35,31 @@ public class CreateUser extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // TODO: Save data to database
                 Log.i(TAG, fname.getText().toString() + " " + lname.getText().toString() + " --- " + email.getText().toString());
 
-                MainActivity.users.add(new User(fname.getText().toString(), lname.getText().toString(), email.getText().toString()));
 
-                Snackbar.make(view, fname + "'s information saved", Snackbar.LENGTH_LONG);
+                Intent intent = new Intent(getApplicationContext(), DBIntentService.class);
+                intent.setAction("INSERT");
 
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                intent.putExtra("fname", fname.getText().toString());
+                intent.putExtra("lname", lname.getText().toString());
+                intent.putExtra("email", email.getText().toString());
+
+                intent.putExtra(DBIntentService.BUNDLED_LISTENER, new ResultReceiver(new Handler()) {
+                    @Override
+                    protected void onReceiveResult(int resultCode, Bundle resultData) {
+                        super.onReceiveResult(resultCode, resultData);
+
+                        if (resultCode == 200) {
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        }
+
+                    }
+                });
+
+                startService(intent);
 
             }
         });

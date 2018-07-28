@@ -19,8 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CreateUser"
+            android:parentActivityName=".MainActivity" />
 
-        <activity android:name=".CreateUser" android:parentActivityName=".MainActivity"></activity>
+        <service
+            android:name=".Model.DBIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

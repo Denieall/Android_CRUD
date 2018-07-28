@@ -12,6 +12,7 @@ import com.denieall.crud.Model.User;
 import com.denieall.crud.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerViewAdapter.UserViewHolder> {
 
@@ -19,9 +20,9 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
 
     private TextView fname, lname, email;
 
-    private ArrayList<User> users_list;
+    private List<User> users_list;
 
-    public UserRecyclerViewAdapter(Context context, ArrayList<User> users) {
+    public UserRecyclerViewAdapter(Context context, List<User> users) {
         this.context = context;
         this.users_list = users;
     }
