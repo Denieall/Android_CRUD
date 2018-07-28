@@ -25,7 +25,9 @@
 
         <service
             android:name=".Model.DBIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:parentActivityName=".MainActivity" android:name=".UserDetailsActivity"></activity>
     </application>
 
 </manifest>

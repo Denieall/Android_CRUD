@@ -1,15 +1,19 @@
 package com.denieall.crud.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.denieall.crud.MainActivity;
 import com.denieall.crud.Model.User;
 import com.denieall.crud.R;
+import com.denieall.crud.UserDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +23,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
     Context context;
 
     private TextView fname, lname, email;
+    private CardView cardView;
 
     private List<User> users_list;
 
@@ -37,11 +42,21 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserRecyclerViewAdapter.UserViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserRecyclerViewAdapter.UserViewHolder holder, final int position) {
 
         fname.setText(users_list.get(position).getFirst_name());
         lname.setText(users_list.get(position).getLast_name());
         email.setText(users_list.get(position).getEmail());
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, UserDetailsActivity.class);
+                intent.putExtra("id", users_list.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -58,6 +73,8 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
             fname = itemView.findViewById(R.id.item_fname_tv);
             lname = itemView.findViewById(R.id.item_lname_tv);
             email = itemView.findViewById(R.id.item_email_tv);
+            cardView = itemView.findViewById(R.id.item_user_cardView);
+
         }
     }
 }
