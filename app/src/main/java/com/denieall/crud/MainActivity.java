@@ -12,9 +12,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.denieall.crud.Adapter.UserRecyclerViewAdapter;
 import com.denieall.crud.Model.DBIntentService;
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         user_recycler_view.setAdapter(adapter);
     }
 
+    // This is for action bar menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -96,7 +100,33 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
+
+        } else if (id == R.id.action_clear_all) {
+
+            // Process delete request
+            Intent intent = new Intent(this, DBIntentService.class);
+            intent.setAction("DELETE ALL");
+
+            intent.putExtra(DBIntentService.BUNDLED_LISTENER, new ResultReceiver(new Handler()) {
+                @Override
+                protected void onReceiveResult(int resultCode, Bundle resultData) {
+                    super.onReceiveResult(resultCode, resultData);
+
+                    Toast.makeText(getApplicationContext(), "List cleared", Toast.LENGTH_LONG).show();
+
+                    // Deletes and restarts the Main activity
+                    finish();
+                    Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent1);
+                }
+            });
+
+            startService(intent);
+
+            return true;
+
         }
 
         return super.onOptionsItemSelected(item);

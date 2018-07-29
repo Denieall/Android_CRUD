@@ -86,11 +86,51 @@ public class DBIntentService extends IntentService {
 
                 thread_get_single_user.start();
 
+            } else if (intentAction.equals("DELETE")) {
+
+                Thread thread_delete_user = new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+
+                        deleteUser((User) intent.getSerializableExtra("User"));
+                    }
+                };
+
+                thread_delete_user.start();
+
+            } else if (intentAction.equals("DELETE ALL")) {
+
+                Thread thread_delete_all_user = new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+
+                        deleteAllUser();
+                    }
+                };
+
+                thread_delete_all_user.start();
+
             }
 
         }
 
         return START_NOT_STICKY;
+    }
+
+    public void deleteAllUser() {
+        appDB.userDAO().deleteAll();
+        dbreceiver.send(200, null);
+    }
+
+    public void deleteUser(User user) {
+        appDB.userDAO().delete(user);
+        dbreceiver.send(200, null);
+    }
+
+    public void editUserInfo(User user) {
+
     }
 
     public void getSingleUser(int id) {
