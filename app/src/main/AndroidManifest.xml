@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".CreateUser"
             android:parentActivityName=".MainActivity" />
@@ -27,7 +28,11 @@
             android:name=".Model.DBIntentService"
             android:exported="false" />
 
-        <activity android:parentActivityName=".MainActivity" android:name=".UserDetailsActivity"></activity>
+        <activity
+            android:name=".UserDetailsActivity"
+            android:parentActivityName=".MainActivity" />
+
+        <activity android:name=".EditUserActivity" android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

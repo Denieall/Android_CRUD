@@ -19,6 +19,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denieall.crud.EditUserActivity;
 import com.denieall.crud.MainActivity;
 import com.denieall.crud.Model.DBIntentService;
 import com.denieall.crud.Model.User;
@@ -80,8 +81,6 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
 
-                        Intent intent = new Intent(context, DBIntentService.class);
-
                         if (menuItem.getItemId() == R.id.list_item_delete_menu) {
 
                             // Display alert dialog
@@ -121,7 +120,10 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
 
                         } else if (menuItem.getItemId() == R.id.list_item_edit_menu) {
 
-                            Log.i("Delete", "" + users_list.get(position).getId());
+                            Intent intent = new Intent(context, EditUserActivity.class);
+                            intent.putExtra("User", users_list.get(position));
+                            context.startActivity(intent);
+
                             return true;
 
                         }

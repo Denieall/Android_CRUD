@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.denieall.crud.AppDatabase;
 
@@ -112,6 +113,24 @@ public class DBIntentService extends IntentService {
 
                 thread_delete_all_user.start();
 
+            } else if (intentAction.equals("UPDATE")) {
+
+                Thread thread_update_user = new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+
+                        User user = (User) intent.getSerializableExtra("User");
+
+                        Log.i("Details", user.getFirst_name());
+
+                        editUserInfo(user);
+
+                    }
+                };
+
+                thread_update_user.start();
+
             }
 
         }
@@ -130,7 +149,8 @@ public class DBIntentService extends IntentService {
     }
 
     public void editUserInfo(User user) {
-
+        appDB.userDAO().update(user);
+        dbreceiver.send(200, null);
     }
 
     public void getSingleUser(int id) {
