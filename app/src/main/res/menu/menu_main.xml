@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.denieall.crud.MainActivity">
 
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
-
     <item android:id="@+id/action_clear_all"
         android:title="Clear All"
         app:showAsAction="never" />

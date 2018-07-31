@@ -42,31 +42,42 @@ public class EditUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // Changed the data in user according to EditText input except for the id
-                user.setFirst_name(edit_fname.getText().toString());
-                user.setLast_name(edit_lname.getText().toString());
-                user.setEmail(edit_email.getText().toString());
+                if (edit_fname.getText().toString().isEmpty() || edit_lname.getText().toString().isEmpty() || edit_email.getText().toString().isEmpty()) {
 
-                Intent intent = new Intent(getApplicationContext(), DBIntentService.class);
-                intent.putExtra("User", user);
-                intent.setAction("UPDATE");
+                    Toast.makeText(getApplicationContext(), "Please fill up all the fields!", Toast.LENGTH_SHORT).show();
 
-                intent.putExtra(DBIntentService.BUNDLED_LISTENER, new ResultReceiver(new Handler()) {
-                    @Override
-                    protected void onReceiveResult(int resultCode, Bundle resultData) {
-                        super.onReceiveResult(resultCode, resultData);
+                    edit_fname.setText(user.getFirst_name());
+                    edit_lname.setText(user.getLast_name());
+                    edit_email.setText(user.getEmail());
 
-                        if (resultCode == 200) {
+                } else {
 
-                            Toast.makeText(getApplicationContext(), "User updated!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
+                    // Changed the data in user according to EditText input except for the id
+                    user.setFirst_name(edit_fname.getText().toString());
+                    user.setLast_name(edit_lname.getText().toString());
+                    user.setEmail(edit_email.getText().toString());
 
+                    Intent intent = new Intent(getApplicationContext(), DBIntentService.class);
+                    intent.putExtra("User", user);
+                    intent.setAction("UPDATE");
+
+                    intent.putExtra(DBIntentService.BUNDLED_LISTENER, new ResultReceiver(new Handler()) {
+                        @Override
+                        protected void onReceiveResult(int resultCode, Bundle resultData) {
+                            super.onReceiveResult(resultCode, resultData);
+
+                            if (resultCode == 200) {
+
+                                Toast.makeText(getApplicationContext(), "User updated!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+
+                            }
                         }
-                    }
-                });
+                    });
 
-                startService(intent);
+                    startService(intent);
+                }
 
             }
         });

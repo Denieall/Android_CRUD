@@ -36,8 +36,6 @@ public class DBIntentService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        appDB = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "testing").build();
     }
 
     @Override
@@ -45,6 +43,8 @@ public class DBIntentService extends IntentService {
 
 
         if (intent != null) {
+
+            appDB = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "testing").build();
 
             String intentAction = intent.getAction();
             dbreceiver = intent.getParcelableExtra(BUNDLED_LISTENER);
@@ -132,6 +132,8 @@ public class DBIntentService extends IntentService {
                 thread_update_user.start();
 
             }
+
+            appDB.close();
 
         }
 

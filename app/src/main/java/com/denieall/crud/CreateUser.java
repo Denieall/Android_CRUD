@@ -1,8 +1,11 @@
 package com.denieall.crud;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,11 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.denieall.crud.Model.DBIntentService;
 import com.denieall.crud.Model.User;
 
 public class CreateUser extends AppCompatActivity {
+
+    ConstraintLayout createUserLayout;
 
     private static final String TAG = "CreateUser";
 
@@ -36,9 +42,13 @@ public class CreateUser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // TODO: Save data to database
-                Log.i(TAG, fname.getText().toString() + " " + lname.getText().toString() + " --- " + email.getText().toString());
+            // TODO: Save data to database
+            if (fname.getText().toString().isEmpty() || lname.getText().toString().isEmpty() || email.getText().toString().isEmpty()) {
 
+                Toast.makeText(getApplicationContext(), "Please fill up all the fields!", Toast.LENGTH_SHORT).show();
+
+
+            } else {
 
                 Intent intent = new Intent(getApplicationContext(), DBIntentService.class);
                 intent.setAction("INSERT");
@@ -61,6 +71,7 @@ public class CreateUser extends AppCompatActivity {
 
                 startService(intent);
 
+            }
             }
         });
 
