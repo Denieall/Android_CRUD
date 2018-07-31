@@ -33,14 +33,17 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
 
     Context context;
 
-    private TextView fname, lname, email;
-    private CardView cardView;
-
     private List<User> users_list;
 
     public UserRecyclerViewAdapter(Context context, List<User> users) {
         this.context = context;
         this.users_list = users;
+    }
+
+    public void filter(List<User> filtered_list) {
+        this.users_list = new ArrayList<User>();
+        this.users_list.addAll(filtered_list);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -55,11 +58,19 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
     @Override
     public void onBindViewHolder(@NonNull UserRecyclerViewAdapter.UserViewHolder holder, final int position) {
 
-        fname.setText(users_list.get(position).getFirst_name());
-        lname.setText(users_list.get(position).getLast_name());
-        email.setText(users_list.get(position).getEmail());
+        for (User user : users_list) {
+            Log.i("Adapter", user.getFirst_name().toLowerCase());
+        }
 
-        cardView.setOnClickListener(new View.OnClickListener() {
+        Log.i("Adapter Position Based", users_list.get(position).getFirst_name().toLowerCase());
+
+        // Always get all content inside view from viewholder class or else search function will have problem
+
+        holder.fname.setText(users_list.get(position).getFirst_name());
+        holder.lname.setText(users_list.get(position).getLast_name());
+        holder.email.setText(users_list.get(position).getEmail());
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -69,7 +80,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
             }
         });
 
-        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
 
@@ -146,6 +157,8 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {
+        TextView fname, lname, email;
+        CardView cardView;
 
         public UserViewHolder(View itemView) {
             super(itemView);

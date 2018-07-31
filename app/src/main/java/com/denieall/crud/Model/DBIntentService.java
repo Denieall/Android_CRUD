@@ -133,8 +133,6 @@ public class DBIntentService extends IntentService {
 
             }
 
-            appDB.close();
-
         }
 
         return START_NOT_STICKY;
@@ -142,22 +140,26 @@ public class DBIntentService extends IntentService {
 
     public void deleteAllUser() {
         appDB.userDAO().deleteAll();
+        appDB.close();
         dbreceiver.send(200, null);
     }
 
     public void deleteUser(User user) {
         appDB.userDAO().delete(user);
+        appDB.close();
         dbreceiver.send(200, null);
     }
 
     public void editUserInfo(User user) {
         appDB.userDAO().update(user);
+        appDB.close();
         dbreceiver.send(200, null);
     }
 
     public void getSingleUser(int id) {
 
         User user = appDB.userDAO().getSingleUser(id);
+        appDB.close();
         Bundle b = new Bundle();
         b.putSerializable("User", (Serializable) user);
         dbreceiver.send(200, b);
@@ -165,7 +167,7 @@ public class DBIntentService extends IntentService {
 
     public void getUsersList() {
         users = appDB.userDAO().getAllUsers();
-
+        appDB.close();
         Bundle b = new Bundle();
         b.putSerializable("All users", (Serializable) users);
         dbreceiver.send(200, b);
@@ -173,6 +175,7 @@ public class DBIntentService extends IntentService {
 
     public void insertUser(String fname, String lname, String email) {
         appDB.userDAO().insertAll(new User(fname, lname, email));
+        appDB.close();
         dbreceiver.send(200, null);
     }
 
